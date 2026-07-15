@@ -12,7 +12,13 @@ interface Props {
 export const Carousel = ({ products }: Props) => {
   const [current, setCurrent] = useState<number>(0);
 
-  // useEffect()
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrent((prev) => (prev + 1) % products.length);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [products.length]);
 
   const currentProduct = products[current];
 
@@ -36,9 +42,10 @@ export const Carousel = ({ products }: Props) => {
         <CardTitle className="text-3xl font-bold text-white mb-2">
           {currentProduct.name}
         </CardTitle>
+
         {price && price.unit_amount && (
           <p className="text-xl text-white">
-            ${(price.unit_amount / 100).toFixed(2)}
+            ৳{(price.unit_amount / 100).toFixed(2)}
           </p>
         )}
       </CardContent>
